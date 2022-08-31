@@ -10,6 +10,8 @@ CLASSES = \
 		  PruebaRectangulo.java \
 		  Rectangulo.java \
 		  Coordenada.java \
+		  PoligonoIrreg.java \
+		  PruebaIrregular.java \
 
 default: classes
 
@@ -19,5 +21,6 @@ clean:
 	$(RM) *.class
 	
 run:
-	java PruebaRectangulo
+	# java PruebaRectangulo
+	java PruebaIrregular
 
