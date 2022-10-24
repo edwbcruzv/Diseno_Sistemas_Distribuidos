@@ -1,47 +1,40 @@
 
-
 public class Ejercicio1{
  
 
     public static void main(String[] args){
         System.out.println(args[0]);
-        char[] cad=new char[4*Integer.parseInt(args[0])];
+        char[] cadenota=new char[4*Integer.parseInt(args[0])];
 
         int i=0;
-        int token=0;
         for(int x=0; x<Integer.parseInt(args[0]) ;x++){
 
-            cad[i++]=(char)(Math.random()*(65-90+1)+90);
-            cad[i++]=(char)(Math.random()*(65-90+1)+90);
-            cad[i++]=(char)(Math.random()*(65-90+1)+90);
-            cad[i++]=' ';
-            if(cad[i-4] == 'I'&&cad[i-3]=='P'&&cad[i-2]=='N'){
-                token++;
-
-            }
+            cadenota[i++]=(char)(Math.random()*(65-90+1)+90);
+            cadenota[i++]=(char)(Math.random()*(65-90+1)+90);
+            cadenota[i++]=(char)(Math.random()*(65-90+1)+90);
+            cadenota[i++]=' ';
+            
                
         }
 
-            //IMPRIMIRCADENA
-            for(i=0; i<4*Integer.parseInt(args[0]);i++){
-                // System.out.println(cad[i]);
+            
+        // for(i=0; i<4*Integer.parseInt(args[0]);i++){
+        //     System.out.println(cadenota[i]);
+        // }
 
-
-            }
-
-
-    System.out.println("Token:"+ token);
+    System.out.println("Token:"+ buscador(cadenota));
 
     }
+
+    public static int buscador(char[] cadenota) {
+
+        int token=0;
+        for (int i = 0; i < cadenota.length; i=i+4) {
+            if(cadenota[i] == 'I'&&cadenota[i+1]=='P'&&cadenota[i+2]=='N'){
+                token++;
+    
+            }    
+        }
+        return token;
+    }
 }
-
-
-
-  /*  public char[] f1(){
-        char[] cad=new char[4];
-        cad[0]=(char)(Math.random()*(65-90+1)+90);
-        cad[1]=(char)(Math.random()*(65-90+1)+90);
-        cad[2]=(char)(Math.random()*(65-90+1)+90);
-        cad[3]=' ';
-        return cad;
-    }*/
