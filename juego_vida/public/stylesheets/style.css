@@ -1,0 +1,13 @@
+
+/* Tamaño del cuatro del lienzo */
+#Lienzo{
+
+
+  height: 1000px;
+  width: 1000px;
+  border: 1px solid black;
+
+  display: block;
+
+  margin: auto;
+}
