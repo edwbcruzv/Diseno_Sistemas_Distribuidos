@@ -12,6 +12,8 @@ import com.sun.net.httpserver.HttpHandler;
 
 import TokensIPN.TokensIPN;
 
+
+
 public class SearchTokenHandler implements HttpHandler{
     
     @Override
@@ -47,7 +49,7 @@ public class SearchTokenHandler implements HttpHandler{
         finishTime=System.currentTimeMillis();
 
         if (DebugMode) {
-            String debugMessage = String.format("La operación tomó %d milisegundos", (finishTime - startTime));
+            String debugMessage = String.format("El calculo duro: %d milisegundos", (finishTime - startTime));
             he.getResponseHeaders().put("X-Debug-Info", Arrays.asList(debugMessage));
         }
 

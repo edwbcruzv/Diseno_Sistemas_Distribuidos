@@ -20,7 +20,7 @@
  */
 
  import java.net.http.HttpClient;
-// import java.net.http.HttpHeaders;
+import java.net.http.HttpHeaders;
 import java.net.http.HttpClient.Redirect;
 import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest.BodyPublishers;
@@ -51,13 +51,13 @@ public class App {
                 .build();
 
         // HttpRequest req=HttpRequest.newBuilder(URI.create("https://jsonplaceholder.typicode.com/users")).GET().build();
-        // HttpRequest req=HttpRequest.newBuilder(URI.create("http://localhost:8080/status")).GET().build();
+        HttpRequest req=HttpRequest.newBuilder(URI.create("http://localhost:5000/status")).GET().build();
 
-        HttpRequest req=HttpRequest.newBuilder()
-                    .uri(URI.create("localhost:3000/searchtoken"))
-                    .header("XDebug","true")
-                    .POST(BodyPublishers.ofString("123456,IPN"))
-                    .build();
+        // HttpRequest req=HttpRequest.newBuilder()
+        //             .uri(URI.create("localhost:3000/searchtoken"))
+        //             .header("XDebug","true")
+        //             .POST(BodyPublishers.ofString("123456,IPN"))
+        //             .build();
 
         
         

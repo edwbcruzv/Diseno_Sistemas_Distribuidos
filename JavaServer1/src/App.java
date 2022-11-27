@@ -50,16 +50,27 @@ import java.net.InetSocketAddress;
 public class App {
     public static void main(String[] args) throws Exception {
         
-        int puerto=3000;
+        int puerto1=5001;
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(puerto) , 0);
+        HttpServer server1 = HttpServer.create(new InetSocketAddress(puerto1) , 0);
 
         // curl -v localhost:3000/status
-        server.createContext("/status", new StatusHandler());
+        server1.createContext("/status", new StatusHandler());
 
         // curl -v -H 'X-Debug:true' -d '15460551,NVDIS' localhost:3000/searchtoken
-        server.createContext("/searchtoken", new SearchTokenHandler());
-        server.start();
-        
+        server1.createContext("/searchtoken", new SearchTokenHandler());
+        server1.start();
+
+        int puerto2 = 5002;
+
+        HttpServer server2 = HttpServer.create(new InetSocketAddress(puerto2), 0);
+
+        // curl -v localhost:3000/status
+        server2.createContext("/status", new StatusHandler());
+
+        // curl -v -H 'X-Debug:true' -d '15460551,NVDIS' localhost:3000/searchtoken
+        server2.createContext("/searchtoken", new SearchTokenHandler());
+        server2.start();
+        System.out.println("Funcionando...");
     }
 }
