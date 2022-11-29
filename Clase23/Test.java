@@ -1,5 +1,6 @@
 
 import java.lang.Runnable;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -11,16 +12,18 @@ import java.util.concurrent.Executors;
  */
 public class Test {
     // Maximum number of threads in thread pool
-    static int MAX_T = 0;
+    static int MAX_T = 3;
     public static void main(String[] args) {
 
-        MAX_T=Integer.parseInt(args[0]);
+        int tareas=Integer.parseInt(args[0]);
         // creates five tasks
-        Runnable r1 = new Task("Cliente 1");
-        Runnable r2 = new Task("Cliente 2");
-        Runnable r3 = new Task("Cliente 3");
-        Runnable r4 = new Task("Cliente 4");
-        Runnable r5 = new Task("Cliente 5");
+
+        ArrayList<Runnable> list_runn=new ArrayList<Runnable>();
+
+        for (int i = 0; i < tareas; i++) {
+            Runnable r = new Task("Cliente "+(i+1));
+            list_runn.add(r);
+        }
 
         // creates a thread pool with MAX_T no. of
         // threads as the fixed pool size(Step 2)
@@ -29,17 +32,16 @@ public class Test {
         // passes the Task objects to the pool to execute (Step 3)
         long startTime, finishTime;
         startTime = System.currentTimeMillis();
-        pool.execute(r1);
-        pool.execute(r2);
-        pool.execute(r3);
-        pool.execute(r4);
-        pool.execute(r5);
 
+        for (Runnable runnable : list_runn) {
+            pool.execute(runnable);
+            
+        }
         // pool shutdown ( Step 4)
         pool.shutdown();
 
         finishTime = System.currentTimeMillis();
-        System.out.println("MAX_T=" + args[0] + ", Tiempo de ejecucion:" + Long.toString(finishTime - startTime) + " milisegundos");
+        System.out.println("Tareas=" + args[0] + ", Tiempo de ejecucion:" + Long.toString(finishTime - startTime) + " milisegundos");
         
     }
 }

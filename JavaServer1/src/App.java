@@ -61,16 +61,16 @@ public class App {
         server1.createContext("/searchtoken", new SearchTokenHandler());
         server1.start();
 
-        int puerto2 = 5002;
+        // int puerto2 = 5002;
 
-        HttpServer server2 = HttpServer.create(new InetSocketAddress(puerto2), 0);
+        // HttpServer server2 = HttpServer.create(new InetSocketAddress(puerto2), 0);
 
-        // curl -v localhost:3000/status
-        server2.createContext("/status", new StatusHandler());
+        // // curl -v localhost:3000/status
+        // server2.createContext("/status", new StatusHandler());
 
-        // curl -v -H 'X-Debug:true' -d '15460551,NVDIS' localhost:3000/searchtoken
-        server2.createContext("/searchtoken", new SearchTokenHandler());
-        server2.start();
+        // // curl -v -H 'X-Debug:true' -d '15460551,NVDIS' localhost:3000/searchtoken
+        // server2.createContext("/searchtoken", new SearchTokenHandler());
+        // server2.start();
         System.out.println("Funcionando...");
     }
 }
