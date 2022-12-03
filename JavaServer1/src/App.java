@@ -42,10 +42,8 @@
 
 import com.sun.net.httpserver.HttpServer;
 
-import MyHandlers.SearchTokenHandler;
-import MyHandlers.StatusHandler;
-
 import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -59,6 +57,8 @@ public class App {
 
         // curl -v -H 'X-Debug:true' -d '15460551,NVDIS' localhost:3000/searchtoken
         server1.createContext("/searchtoken", new SearchTokenHandler());
+        server1.setExecutor(Executors.newFixedThreadPool(8));
+
         server1.start();
 
         // int puerto2 = 5002;

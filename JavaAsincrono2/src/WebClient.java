@@ -13,14 +13,15 @@ public class WebClient {
                 .build();
     }
 
-    public CompletableFuture<String> sendTask(String url, byte[] requestPayload) {
+    public CompletableFuture<HttpResponse<String>> sendTask(String url, byte[] requestPayload) {
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofByteArray(requestPayload))
                 .uri(URI.create(url))
                 .header("X-Debug", "true")
                 .build();
 
-        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body);
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+                // .thenApply(HttpResponse::body);
+    
     }
 }

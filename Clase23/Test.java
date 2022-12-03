@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
  */
 public class Test {
     // Maximum number of threads in thread pool
-    static int MAX_T = 3;
+    static int MAX_T = 100;
     public static void main(String[] args) {
 
         int tareas=Integer.parseInt(args[0]);

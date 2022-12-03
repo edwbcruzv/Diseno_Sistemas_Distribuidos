@@ -27,7 +27,9 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.net.URI;
 public class App {
     public static void main(String[] args) throws Exception {
@@ -51,21 +53,30 @@ public class App {
                 .build();
 
         // HttpRequest req=HttpRequest.newBuilder(URI.create("https://jsonplaceholder.typicode.com/users")).GET().build();
-        HttpRequest req=HttpRequest.newBuilder(URI.create("http://localhost:5000/status")).GET().build();
+        // HttpRequest req=HttpRequest.newBuilder(URI.create("http://localhost:5001/status")).GET().build();
 
-        // HttpRequest req=HttpRequest.newBuilder()
-        //             .uri(URI.create("localhost:3000/searchtoken"))
-        //             .header("XDebug","true")
-        //             .POST(BodyPublishers.ofString("123456,IPN"))
-        //             .build();
+        HttpRequest req=HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:5001/searchtoken"))
+                    .header("X-Debug","true")
+                    .POST(BodyPublishers.ofString("1757600,IPN"))
+                    .build();
 
         
         
         // enviando peticion y esperando la respuesta
         HttpResponse<String> res=cliente.send(req,HttpResponse.BodyHandlers.ofString());
 
-        String headers=res.headers().toString();
-        System.out.println(headers);
-        System.out.println(res.body());
+        // String headers=res.headers().toString();
+        Map<String, List<String>> headers = res.headers().map();
+
+        Iterator it =headers.keySet().iterator();
+
+        while (it.hasNext()) {
+            String header=(String) it.next();
+            System.out.println(header+":"+headers.get(header));
+            
+        }
+
+        System.out.println("Body-> "+res.body());
     }
 }
