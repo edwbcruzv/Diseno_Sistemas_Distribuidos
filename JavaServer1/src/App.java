@@ -1,4 +1,11 @@
 /*
+ * Proyecto 3
+ * Cruz Villalba Edwin Bernardo
+ * Grupo 4CM11
+ * 
+ */
+
+/*
  * Esta clase implementa un servidor HTTP simple,
  * Un HttpServer esta vinculado a una direccion IP y un puerto,
  * y escucha conexiones TCP de los clientes en esta direccion
@@ -49,28 +56,26 @@ public class App {
     public static void main(String[] args) throws Exception {
         
         int puerto1=5001;
-
         HttpServer server1 = HttpServer.create(new InetSocketAddress(puerto1) , 0);
-
-        // curl -v localhost:3000/status
         server1.createContext("/status", new StatusHandler());
-
-        // curl -v -H 'X-Debug:true' -d '15460551,NVDIS' localhost:3000/searchtoken
         server1.createContext("/searchtoken", new SearchTokenHandler());
         server1.setExecutor(Executors.newFixedThreadPool(8));
-
         server1.start();
 
-        // int puerto2 = 5002;
+        int puerto2 = 5002;
+        HttpServer server2 = HttpServer.create(new InetSocketAddress(puerto2), 0);
+        server2.createContext("/status", new StatusHandler());
+        server2.createContext("/searchtoken", new SearchTokenHandler());
+        server2.setExecutor(Executors.newFixedThreadPool(8));
+        server2.start();
 
-        // HttpServer server2 = HttpServer.create(new InetSocketAddress(puerto2), 0);
+        int puerto3 = 5003;
+        HttpServer server3 = HttpServer.create(new InetSocketAddress(puerto3), 0);
+        server3.createContext("/status", new StatusHandler());
+        server3.createContext("/searchtoken", new SearchTokenHandler());
+        server3.setExecutor(Executors.newFixedThreadPool(8));
+        server3.start();
 
-        // // curl -v localhost:3000/status
-        // server2.createContext("/status", new StatusHandler());
-
-        // // curl -v -H 'X-Debug:true' -d '15460551,NVDIS' localhost:3000/searchtoken
-        // server2.createContext("/searchtoken", new SearchTokenHandler());
-        // server2.start();
         System.out.println("Funcionando...");
     }
 }

@@ -1,4 +1,9 @@
-
+/*
+ * Proyecto 3
+ * Cruz Villalba Edwin Bernardo
+ * Grupo 4CM11
+ * 
+ */
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -52,7 +57,7 @@ public class SearchTokenHandler implements HttpHandler{
         }
 
         // si no hay ningun problema, se procesa la solicitud con el codigobyte[] requestBytes = exchange.getRequestBody().readAllBytes(); 200
-        String mensaje="tokens:"+Integer.toString(tokens)+"\n\n";
+        String mensaje="Concurrencia="+Integer.toString(tokens)+"\n\n";
 
         int code_200=200;
 
