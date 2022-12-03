@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class App {
-    private static final String WORKER_ADDRESS_1 = "http://localhost:5001/searchtoken";
+    private static final String WORKER_ADDRESS_1 = "http://34.71.29.149/searchtoken";
 
     public static void main(String[] args) {
         Aggregator aggregator = new Aggregator();
