@@ -24,7 +24,6 @@ public class WebClient {
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofByteArray(requestPayload))
                 .uri(URI.create(url))
-                .header("X-Debug", "true")
                 .build();
 
         return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());

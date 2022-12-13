@@ -13,5 +13,7 @@
 # header y datos
 >curl -v --header 'clave:valor' www.google.com
 
+>curl -X POST -d 'datos' www.google.com
+
 
 
