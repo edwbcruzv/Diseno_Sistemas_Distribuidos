@@ -30,37 +30,55 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.jackson_tutorial.Model.Country;
 import com.jackson_tutorial.Model.Info;
 
+
+
 public class ObjectMapperUtils {
 
+    /*ObjectMapper proporciona 4 cosntructores para serializar y deserializar
+    un POJO a cadena JSON o viceversa  */
     private static ObjectMapper objectMapper = new ObjectMapper();
+
     private static Country country = new Country("India", 135260000000L, 29, true);
     private static String countryStr = "{\"name\":\"India\",\"population\":135260000000,\"numberOfProvinces\":29,\"developed\":true}";
 
+    /*De POJO a string-JSON (Serializacion)*/
     public static void objectToJsonString() throws JsonProcessingException {
+        // el parametro sera el POJO a serializar (Metodo 1)
         String countryAsString = objectMapper.writeValueAsString(country);
         System.out.println("objectToJsonString : " + countryAsString + "\n");
     }
-
-    public static void objectToJsonInFile() throws IOException {
-        objectMapper.writeValue(new File("target/country.json"), country);
-    }
-
+    
+    /*De POJO a matriz de Bytes (Serializacion)*/
     public static void objectToBytes() throws JsonProcessingException {
+        // el parametro sera el POJO a serializar (Metodo 2)
         byte[] countryAsBytes = objectMapper.writeValueAsBytes(country);
         System.out.println("objectToBytes : " + countryAsBytes + "\n");
     }
+    
+    /*De POJO a un archivo .JSON (Serializacion)*/
+    public static void objectToJsonInFile() throws IOException {
+        // el parametro sera el archivo FILE con la ruta destino y nombre 
+        // el segundo parametro el POJO a serializar (Metodo 3)
+        objectMapper.writeValue(new File("target/country.json"), country);
+    }
 
+    /*De string-JSON a POJO (Deserializacion)*/
     public static void jsonStrToObject() throws IOException {
+        // el parametro sera el string-JSON a deserializar (Metodo 4)
         Country countryFromString = objectMapper.readValue(countryStr, Country.class);
         System.out.println("jsonStrToObject : " + countryFromString + "\n");
     }
 
+    /*De un archivo .JSON a POJO (Deserializacion)*/
     public static void jsonInFileToObject() throws IOException {
+        // el parametro sera el FILE con la ruta y nombre del archivo .json (Metodo 5)
         Country countryFromFile = objectMapper.readValue(new File("target/country.json"), Country.class);
         System.out.println("jsonInFileToObject : " + countryFromFile + "\n");
     }
 
+    /*De un string JSON a un Map (Parseo)*/
     public static void readJsonStringAsMap() throws IOException {
+        // el parametro sera la cadena con el formato JSON y hacer la referencia al Map (siempre sera la misma referencia)
         Map<String, Object> jsonStringToMap = objectMapper.readValue(countryStr,
                 new TypeReference<Map<String, Object>>() {
                 });

@@ -1,7 +1,23 @@
 package com.jackson_tutorial.Model;
 
+/**
+ * POJO (Plain Old Java Object) (Objeto Java PLano Antiguo).
+ * Es una clase simple e independiente (No dependen de ningun famework), 
+ * no posee restricciones especiales y su objetivo es simplificar 
+ * la estructuracion de los desarrollos reduciendo la complejidad,
+ * aumentando la legibilidad y facilitar su reutilizacion.
+ * 
+ * Los POJOs no pueden:
+ *          - Implementar interfaces.
+ *          - Extender de otras clases.
+ *          - Contener decoradores.
+ * 
+ * 
+ */
 public class Country {
 
+
+	/* los atributos pueden ser publico o privados */
 	private String name;
 	private long population;
 	private int numberOfProvinces;
