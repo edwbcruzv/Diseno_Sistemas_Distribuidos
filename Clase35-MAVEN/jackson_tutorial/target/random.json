@@ -1,0 +1,15 @@
+{
+  "asText" : "SampleString",
+  "asBoolean" : false,
+  "asArray" : [ {
+    "name" : "India",
+    "population" : 135260000000,
+    "numberOfProvinces" : 29,
+    "developed" : true
+  }, {
+    "name" : "Dummy",
+    "population" : 1987634509,
+    "numberOfProvinces" : 15,
+    "developed" : true
+  } ]
+}
