@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,7 +20,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -60,6 +58,7 @@ public class ObjectMapperUtils {
         // el parametro sera el archivo FILE con la ruta destino y nombre 
         // el segundo parametro el POJO a serializar (Metodo 3)
         objectMapper.writeValue(new File("target/country.json"), country);
+        System.out.println("objectToJsonInFile: target/country.json creado.\n");
     }
 
     /*De string-JSON a POJO (Deserializacion)*/
@@ -78,70 +77,88 @@ public class ObjectMapperUtils {
 
     /*De un string JSON a un Map (Parseo)*/
     public static void readJsonStringAsMap() throws IOException {
-        // el parametro sera la cadena con el formato JSON y hacer la referencia al Map (siempre sera la misma referencia)
+        // el parametro sera la cadena con el formato JSON y hacer la referencia al Map 
         Map<String, Object> jsonStringToMap = objectMapper.readValue(countryStr,
-                new TypeReference<Map<String, Object>>() {
+                new TypeReference<Map<String, Object>>() {// (siempre sera la misma referencia)
                 });
         System.out.println("JsonStringToMap : " + jsonStringToMap + "\n");
     }
-
+    
+    /* De un string JSON a un List (Parseo) */
     public static void readJsonArrayStringAsList() throws IOException {
         String countryArrayStr = "[{\"name\":\"India\",\"population\":135260000000,"
                 + "\"numberOfProvinces\":29,\"developed\":true},{\"name\":\"SomeCountry\","
                 + "\"population\":123456789000,\"numberOfProvinces\":45," + "\"developed\":true}]";
-        List<Country> countryArrayAsList = objectMapper.readValue(countryArrayStr, new TypeReference<List<Country>>() {
-        });
+        // el parametro sera la cadena con el formato JSON y hacer la referencia al Map
+        List<Country> countryArrayAsList = objectMapper.readValue(countryArrayStr, 
+                new TypeReference<List<Country>>() { // (siempre sera la misma referencia, cambiando el timpo de clase POJO)
+                });
         System.out.println("JsonArrayStringToList " + countryArrayAsList + "\n");
     }
 
+    /*Para recuperar datos de un nodo especifico  */
+    /* De un string JSON a un jsonNode (Parseo) */
     public static void parseJsonStringAsJsonNode() throws IOException {
+        // creando jsonNode
         JsonNode jsonNode = objectMapper.readTree(countryStr);
+        // obteniendo los nodos o propiedades especificos
         String name = jsonNode.get("name").asText();
         Long population = jsonNode.get("population").asLong();
         Integer provinces = jsonNode.get("numberOfProvinces").asInt();
         boolean isDeveloped = jsonNode.get("developed").asBoolean();
+
         System.out.println("parseJsonStringAsJsonNode - Name = " + name + " Population = " + population + " Provinces "
                 + provinces + " isDeveloped " + isDeveloped + "\n");
     }
 
+
+
     public static void createJsonNodeStr() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        objectMapper.setVisibility(
-                VisibilityChecker.Std.defaultInstance().withFieldVisibility(Visibility.ANY));
+        // objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+        // creando nodo raiz vacia
         ObjectNode root = objectMapper.createObjectNode();
+        // agregando propiedados o nodos
         root.put("asText", "SampleString");
         root.put("asBoolean", false);
+        // creando un arreglo en la propiedad o nodo
         ArrayNode array = root.putArray("asArray");
+        // creando un POJO
         Country country = new Country("India", 135260000000L, 29, true);
+        // leyendo un archivo .json a un POJO (tener cuidado con la exitencia del archivo target/random.json)
         Country countryFromFile = objectMapper.readValue(new File("target/random.json"), Country.class);
+        // agregando el POJO al arreglo
         array.addPOJO(country);
         array.addPOJO(countryFromFile);
         System.out
                 .println("createJsonNodeStr " + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(root));
     }
 
+    /* Demostracion de una propiedad desconocida que no esta incluida en el POJO */
     public static void demoUnknownField() throws IOException {
         String countryStrUnknownField = "{\"name\":\"India\",\"population\":135260000000,"
                 + "\"numberOfProvinces\":29,\"developed\":true, " + "\"extraField\":\"some-value\"}";
         Country countryUnknownField;
         try {
-            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            objectMapper.setVisibility(
-                    VisibilityChecker.Std.defaultInstance().withFieldVisibility(Visibility.ANY));
+            // sig linea ignora  cualquier propiedad desconocida para el POJO (metodo1)
+            // objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES); 
             countryUnknownField = objectMapper.readValue(countryStrUnknownField, Country.class);
         } catch (Exception ex) {
             System.out.println("demoUnknownField : Exception - Message " + "\n");
             ex.printStackTrace();
         }
+        // sig linea ignora cualquier propiedad desconocida para el POJO (metodo2)
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
         countryUnknownField = objectMapper.readValue(countryStrUnknownField, Country.class);
         System.out.println("demoUnknownField " + countryUnknownField + "\n");
     }
-
+    /* Valores primitivos nulos  */
     public static void demoNullPrimitiveValues() throws IOException {
         Country countryPrimitiveNull = null;
-        objectMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
+        // la siguiente linea permite los valores nulos en las propiedades
+        objectMapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
         String countryStrPrimitiveNull = "{\"name\":\"India\"," + "\"population\":135260000000,\"numberOfProvinces\""
                 + ":null,\"developed\":true}";
         try {
@@ -152,26 +169,27 @@ public class ObjectMapperUtils {
             ex.printStackTrace();
         }
     }
-
+    
+    /*Serializando una Fecha */
     public static void objectWithDateToJsonString() throws JsonProcessingException {
         DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ssZ yyyy");
         objectMapper.setDateFormat(df);
+        // creando un POJO Info con una Country y una fecha
         String objWithDateAsJsonString = objectMapper.writeValueAsString(new Info(country, new Date()));
         System.out.println("objectWithDateToJsonString " + objWithDateAsJsonString + "\n");
-        // Prints {"country":{"name":"India","population":135260000000,
-        // "numberOfProvinces":29,"developed":true},
-        // "now":"Wed Jun 10 08:50:42+0530 2020"}
+        
     }
-
+    /*Deserializando una fecha */
     public static void jsonStringWithDateToObject() throws IOException {
         String infoAsString = "{\"country\":{\"name\":\"India\","
                 + "\"population\":135260000000,\"numberOfProvinces\":29,"
-                + "\"developed\":true},\"now\":\"Tue Jan 01 01:01:01+0230 2020\"}";
+                + "\"developed\":true},\"now\":\"vie. dic 30 14:46:46-0600 2022\"}";
         Info info = objectMapper.readValue(infoAsString, Info.class);
         System.out.println("jsonStringWithDateToObject " + info.getNow() + "\n");
-        // Prints Wed Jan 01 04:01:01 IST 2020
+       
     }
 
+    /* Serializacion Personalizada */
     public static void demoCustomSerializer() throws JsonProcessingException {
 
         class CustomCountrySerializer extends StdSerializer<Country> {
@@ -203,6 +221,7 @@ public class ObjectMapperUtils {
     }
 
     public static void demoCustomDeSerializer() throws JsonMappingException, JsonProcessingException {
+
         class CustomCountryDeserializer extends StdDeserializer<Country> {
 
             private static final long serialVersionUID = 1L;

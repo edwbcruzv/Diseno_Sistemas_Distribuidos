@@ -1,4 +1,4 @@
-import com.sun.net.httpserver.Headers;
+
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -30,24 +29,22 @@ public class Server {
         this.server = HttpServer.create(new InetSocketAddress(this.puerto), 0);
     
         HttpContext statusServerContext = this.server.createContext("/status_server");
-        HttpContext pushCURPContext = this.server.createContext("/push_curp");
-        HttpContext statusGenerateContext = this.server.createContext("/status_generate");
+        HttpContext pushCURPContext = this.server.createContext("/push_curp");//POST
         HttpContext statusListContext = this.server.createContext("/status_list");
         HttpContext lengthBytesListContext = this.server.createContext("/length_bytes_list");
         HttpContext countMaleContext = this.server.createContext("/count_male");
         HttpContext countFeminContext = this.server.createContext("/count_femin");
-        HttpContext countEntityContext = this.server.createContext("/count_entity");
+        HttpContext countEntityContext = this.server.createContext("/count_entity");//POST
         
         statusServerContext.setHandler(this::statusServerHandler);
         pushCURPContext.setHandler(this::pushCURPHandler);
-        statusGenerateContext.setHandler(this::statusGenerateHandler);
         statusListContext.setHandler(this::statusListHandler);
         lengthBytesListContext.setHandler(this::lengthBytesListHandler);
-        countMaleContext.setHandler(this::countMale);
-        countFeminContext.setHandler(this::countFemin);
-        countEntityContext.setHandler(this::countEntity);
+        countMaleContext.setHandler(this::countMaleHandler);
+        countFeminContext.setHandler(this::countFeminHandler);
+        countEntityContext.setHandler(this::countEntityHandler);
 
-        this.server.setExecutor(Executors.newFixedThreadPool(10));
+        this.server.setExecutor(Executors.newFixedThreadPool(4));
     }
 
     public void start() {
@@ -87,7 +84,7 @@ public class Server {
             this.count_curps++;
     
             this.List_CURPs.add(str_CURP);
-            responseMessage = "Agregado:" + str_CURP;
+            responseMessage = "Agregado:" + str_CURP+"\n";
             
         }
 
@@ -96,27 +93,6 @@ public class Server {
         sendResponse(responseMessage.getBytes(), he);
     }
 
-    public void statusGenerateHandler(HttpExchange he) throws IOException{
-        System.out.println("Metodo en " + this.puerto + "/status_generate:" + he.getRequestMethod());
-        if (!he.getRequestMethod().equalsIgnoreCase("get")) {
-            he.close();
-            return;
-        }
-        // variable que contendra el mensaje al cliente
-
-        int start_count=this.count_curps;
-        try {
-            TimeUnit.SECONDS.sleep(60);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        int finish_count=this.count_curps;
-        
-        String responseMessage = String.valueOf(finish_count-start_count);
-
-        // respondiendole al cliente
-        sendResponse(responseMessage.getBytes(), he);
-    }
 
     public void statusListHandler(HttpExchange he) throws IOException{
         System.out.println("Metodo en " + this.puerto + "/status_list:" + he.getRequestMethod());
@@ -144,7 +120,7 @@ public class Server {
         sendResponse(responseMessage.getBytes(), he);
     }
 
-    public void countMale(HttpExchange he) throws IOException{
+    public void countMaleHandler(HttpExchange he) throws IOException{
         System.out.println("Metodo en " + this.puerto + "/count_male:" + he.getRequestMethod());
         if (!he.getRequestMethod().equalsIgnoreCase("get")) {
             he.close();
@@ -157,7 +133,7 @@ public class Server {
         sendResponse(responseMessage.getBytes(), he);
     }
     
-    public void countFemin(HttpExchange he) throws IOException{
+    public void countFeminHandler(HttpExchange he) throws IOException{
         System.out.println("Metodo en " + this.puerto + "/count_femin:" + he.getRequestMethod());
         if (!he.getRequestMethod().equalsIgnoreCase("get")) {
             he.close();
@@ -170,14 +146,14 @@ public class Server {
         sendResponse(responseMessage.getBytes(), he);
     }
 
-    public void countEntity(HttpExchange he) throws IOException{
+    public void countEntityHandler(HttpExchange he) throws IOException{
         System.out.println("Metodo en " + this.puerto + "/count_entity:" + he.getRequestMethod());
         if (!he.getRequestMethod().equalsIgnoreCase("post")) {
             he.close();
             return;
         }
         String str_entity = new String(he.getRequestBody().readAllBytes());
-        String responseMessage = str_entity + ":No es una entidad valida";
+        String responseMessage = str_entity + ":No es una entidad valida\n";
         if (str_entity.length()==2) {
             int count_entity=0;
             Iterator<String> itr = this.List_CURPs.iterator();
