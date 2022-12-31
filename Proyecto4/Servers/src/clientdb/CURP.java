@@ -1,3 +1,5 @@
+package clientdb;
+
 class CURP{
 
     public CURP(){}
