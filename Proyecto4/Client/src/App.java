@@ -10,33 +10,20 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         App app = new App();
-        
-        boolean bandera=true;
         Scanner in = new Scanner(System.in);
         int opcion=0;
 
-        while (bandera) {
-
-            System.out.println( "Elija una opcion:\n"+
-                                "1.- CURPs generadas por minuto.\n" +
-                                "2.- Cantidad de registros.\n" +
-                                "3.- Bytes de la Base de datos.\n" +
-                                "4.- Numeros de Hombre y Mujeres.\n" +
-                                "5.- Cantidad de Registros por entidad." +
-                                "Presiones 0 para salir.");
-            try {
-                opcion=in.nextInt();
-                app.optionSwich(opcion);
-            } catch (Exception e) {
-                System.out.println("El valor ingresado no es valido, intente de nuevo\n\n");
-                e.printStackTrace();
-            }
-
-            if (opcion==0) {
-                bandera=false;
-            }
+        System.out.println( "Elija una opcion:\n"+
+                            "1.- CURPs generadas por minuto.\n" +
+                            "2.- Cantidad de registros.\n" +
+                            "3.- Bytes de la Base de datos.\n" +
+                            "4.- Numeros de Hombre y Mujeres.\n" +
+                            "5.- Cantidad de Registros por entidad." +
+                            "Presiones 0 para salir.");
+        
+        opcion=in.nextInt();
+        app.optionSwich(opcion);
             
-        }
         in.close();
     }
     public App() {
@@ -54,7 +41,7 @@ public class App {
                 System.out.println(res.body()+"bye.");
                 break;
             case 1:
-                res = this.client.sendRequestGET("http://localhost:5004//status_generate_db");
+                res = this.client.sendRequestGET("http://localhost:5004/status_generate_db");
                 System.out.println(res.body());
                 break;
             case 2:
