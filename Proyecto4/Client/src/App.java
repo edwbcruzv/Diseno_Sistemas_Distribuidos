@@ -37,27 +37,27 @@ public class App {
 
         switch (n) {
             case 0:
-                res = this.client.sendRequestGET("http://localhost:8080/status_server_db");
+                res = this.client.sendRequestGET("http://34.68.107.34:80/status_server_db");
                 System.out.println(res.body()+"bye.");
                 break;
             case 1:
-                res = this.client.sendRequestGET("http://localhost:8080/status_generate_db");
+                res = this.client.sendRequestGET("http://34.68.107.34:80/status_generate_db");
                 System.out.println(res.body());
                 break;
             case 2:
-                res = this.client.sendRequestGET("http://localhost:8080/status_list_db");
+                res = this.client.sendRequestGET("http://34.68.107.34:80/status_list_db");
                 System.out.println(res.body());
                 break;
             case 3:
-                res = this.client.sendRequestGET("http://localhost:8080/length_bytes_list_db");
+                res = this.client.sendRequestGET("http://34.68.107.34:80/length_bytes_list_db");
                 System.out.println(res.body());
                 break;
             case 4:
-                res = this.client.sendRequestGET("http://localhost:8080/count_male_femin_db");
+                res = this.client.sendRequestGET("http://34.68.107.34:80/count_male_femin_db");
                 System.out.println(res.body());
                 break;
             case 5:
-                res = this.client.sendRequestPOST("http://localhost:8080/count_entity_db", in.nextLine().getBytes());
+                res = this.client.sendRequestPOST("http://34.68.107.34:80/count_entity_db", in.nextLine().getBytes());
                 System.out.println(res.body());
                 break;
             default:

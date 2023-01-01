@@ -24,7 +24,7 @@ public class App{
         Server server3 = new Server(5003);
         server3.start();
 
-        ServerDB server_db = new ServerDB(8080);
+        ServerDB server_db = new ServerDB(80);
         server_db.start();
         server_db.runDB(Arrays.asList(DB_ADDRESS_1,DB_ADDRESS_2,DB_ADDRESS_3));
         
