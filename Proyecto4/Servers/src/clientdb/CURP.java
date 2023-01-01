@@ -1,3 +1,9 @@
+/*
+ * Proyecto 4
+ * Cruz Villalba Edwin Bernardo
+ * Grupo 4CM11
+ * 
+ */
 package clientdb;
 
 class CURP{

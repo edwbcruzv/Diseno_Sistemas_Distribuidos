@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 /*
  * Proyecto 4
  * Cruz Villalba Edwin Bernardo
@@ -7,6 +5,7 @@ import java.util.Arrays;
  * 
  */
 
+import java.util.Arrays;
 
 public class App{
     public static void main(String[] args) throws Exception {
