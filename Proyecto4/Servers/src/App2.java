@@ -7,7 +7,7 @@
 
 import java.util.Arrays;
 
-public class App{
+public class App2{
     public static void main(String[] args) throws Exception {
 
         String DB_ADDRESS_1 = "http://localhost:5001";
